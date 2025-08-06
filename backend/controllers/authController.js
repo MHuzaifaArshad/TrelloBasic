@@ -1,6 +1,6 @@
 // backend/controllers/authController.js
 const User = require('../models/User'); 
-
+const jwt = require('jsonwebtoken');
 
 const sendTokenResponse = (user, statusCode, res) => {
   const token = user.generateAuthToken(); // Generate JWT token
@@ -9,8 +9,8 @@ const sendTokenResponse = (user, statusCode, res) => {
   const options = {
     expires: new Date(Date.now() + 60 * 60 * 1000), 
     httpOnly: true, 
-    secure: false, 
-    sameSite: 'Lax', 
+    secure: true, 
+    sameSite: 'None', 
   };
 
   
@@ -89,8 +89,8 @@ const logoutUser = (req, res) => {
   res.cookie('token', 'none', {
     expires: new Date(Date.now() + 10 * 1000), 
     httpOnly: true,
-    secure: false, 
-    sameSite: 'Lax', // Or 'None' if 'Lax' causes issues in development, but requires secure: true
+    secure: true, 
+    sameSite: 'None', 
   });
   res.status(200).json({ success: true, message: 'Logged out successfully' });
 };
