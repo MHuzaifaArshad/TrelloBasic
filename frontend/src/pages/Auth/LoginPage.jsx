@@ -1,0 +1,77 @@
+// frontend/src/pages/Auth/LoginPage.jsx
+import React, { useState } from 'react';
+import InputField from '../../components/InputField';
+import Button from '../../components/Button';
+
+export default function LoginPage({ onLogin, onNavigateToRegister }) {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+    setLoading(true);
+
+    try {
+      await onLogin(email, password);
+    } catch (err) {
+      setError(err.message || 'Login failed. Please check your credentials.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="flex items-center justify-center min-h-[calc(100vh-120px)] bg-gray-900 text-gray-100 font-sans relative">
+      {/* Background pattern for retro feel */}
+      <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-10 pointer-events-none z-0"></div>
+
+      <div className="relative z-10 w-full max-w-sm bg-gray-800 p-8 rounded-lg shadow-2xl border-4 border-gray-600">
+        <h2 className="text-4xl font-extrabold text-yellow-400 text-center mb-8 font-mono tracking-wider text-shadow-retro">
+          LOGIN
+        </h2>
+        <form onSubmit={handleSubmit}>
+          <InputField
+            label="EMAIL"
+            id="email"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="YOUR@EXAMPLE.COM"
+            required
+            labelClassName="text-yellow-400 font-mono"
+          />
+          <InputField
+            label="PASSWORD"
+            id="password"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="********"
+            required
+            labelClassName="text-yellow-400 font-mono"
+          />
+          {error && <p className="text-red-500 text-xs mt-1 mb-4 text-center font-mono">{error}</p>}
+          <Button
+            type="submit"
+            className="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-4 mt-6 border-2 border-purple-500 shadow-lg"
+            disabled={loading}
+          >
+            {loading ? 'LOGGING IN...' : 'LOGIN'}
+          </Button>
+        </form>
+        <p className="text-center text-gray-400 text-sm mt-6 font-mono">
+          DON'T HAVE AN ACCOUNT?{' '}
+          <button
+            onClick={onNavigateToRegister}
+            className="text-green-400 hover:text-green-300 font-bold transition-colors"
+          >
+            REGISTER HERE
+          </button>
+        </p>
+      </div>
+    </div>
+  );
+}
