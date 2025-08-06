@@ -9,15 +9,15 @@ const { protect } = require('../middleware/authMiddleware');
 
 const router = express.Router();
 
-router.use(protect); // All notification routes require authentication
+router.use(protect); 
 
 router.route('/')
-  .get(getNotifications); // Get all notifications for the authenticated user
+  .get(getNotifications); 
 
 router.route('/:id/read')
-  .put(markNotificationAsRead); // Mark a specific notification as read
+  .put(markNotificationAsRead); 
 
 router.route('/mark-all-read')
-  .put(markAllNotificationsAsRead); // Mark all notifications for the user as read
+  .put(markAllNotificationsAsRead); 
 
 module.exports = router;

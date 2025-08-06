@@ -54,7 +54,6 @@ export default function ProjectForm({ onSubmit, onCancel, initialData, isEditMod
   };
 
   return (
-    // Outer container for centering the modal
     <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50 p-4">
       {/* Modal content container */}
       <div className="bg-white p-8 rounded-lg shadow-xl w-full max-w-lg mx-auto transform transition-all duration-300 scale-100 opacity-100">

@@ -6,7 +6,7 @@ import InputField from '../../components/InputField';
 export default function ProjectFormPage({ projectId, onProjectSaved, onCancel, isEditMode = false }) {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
-  const [members, setMembers] = useState(''); // Comma-separated usernames
+  const [members, setMembers] = useState(''); 
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -28,7 +28,6 @@ export default function ProjectFormPage({ projectId, onProjectSaved, onCancel, i
       };
       fetchProject();
     } else {
-      // Reset form for create mode
       setName('');
       setDescription('');
       setMembers('');

@@ -15,7 +15,6 @@ export default function InputField({ label, id, type, value, onChange, placehold
         onChange={onChange}
         placeholder={placeholder}
         required={required}
-        // Retro styling for input fields: text-yellow-400 for input, placeholder-gray-500 for placeholder
         className={`w-full p-2.5 bg-gray-800 text-yellow-400 border-2 border-green-500 rounded-md shadow-inner focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-green-400 font-mono placeholder-gray-500 ${className}`}
       />
     </div>

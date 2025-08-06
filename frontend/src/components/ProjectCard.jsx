@@ -1,9 +1,8 @@
 // frontend/src/components/ProjectCard.jsx
 import React from 'react';
-import Button from './Button'; // Assuming Button.jsx is in the same components folder
+import Button from './Button'; 
 
-export default function ProjectCard({ project, onEdit, onDelete, onViewDetails }) { // CRITICAL FIX: Changed onSelectProject to onViewDetails
-  // Helper to format date if needed
+export default function ProjectCard({ project, onEdit, onDelete, onViewDetails }) { 
   const formatDate = (dateString) => {
     if (!dateString) return 'N/A';
     try {
@@ -30,7 +29,7 @@ export default function ProjectCard({ project, onEdit, onDelete, onViewDetails }
 
       <div className="flex space-x-2 mt-auto"> {/* mt-auto pushes buttons to the bottom */}
         <Button
-          onClick={() => onViewDetails(project._id)} // CRITICAL FIX: Call onViewDetails with project._id
+          onClick={() => onViewDetails(project._id)}
           className="bg-blue-500 hover:bg-blue-600 text-white text-sm flex-1"
         >
           View Project

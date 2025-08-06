@@ -1,7 +1,7 @@
 // frontend/src/components/TaskCard.jsx
 import React from 'react';
-import Button from './Button'; // Assuming Button.jsx is in the same components folder
-import { Paperclip } from 'lucide-react'; // Import a paperclip icon for attachments
+import Button from './Button'; 
+import { Paperclip } from 'lucide-react'; 
 
 export default function TaskCard({ task, onEdit, onDelete, onStatusChange }) {
   const formatDate = (dateString) => {
@@ -46,7 +46,7 @@ export default function TaskCard({ task, onEdit, onDelete, onStatusChange }) {
         <p><span className="font-bold text-yellow-400">CREATED BY:</span> <span className="font-mono">{task.createdBy?.username.toUpperCase() || 'N/A'}</span></p>
       </div>
 
-      {/* NEW: Display Attachments */}
+      {/* Display Attachments */}
       {task.attachments && task.attachments.length > 0 && (
         <div className="mt-2 mb-3">
           <p className="font-bold text-yellow-400 text-xs mb-1 font-mono uppercase">Attachments:</p>

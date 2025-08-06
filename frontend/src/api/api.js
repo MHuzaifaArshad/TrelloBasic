@@ -1,7 +1,6 @@
 // frontend/src/api/api.js
 import axios from 'axios';
 
-// Using Vite's environment variable syntax
 const API_BASE_URL = import.meta.env.VITE_APP_BACKEND_URL || 'http://localhost:5000/api';
 
 const api = axios.create({
@@ -12,7 +11,7 @@ const api = axios.create({
   withCredentials: true,
 });
 
-// --- Authentication & User API Calls ---
+//Authentication/User API Calls
 const authApi = {
   login: async (email, password) => {
     try {
@@ -46,7 +45,7 @@ const authApi = {
   },
 };
 
-// --- Project API Calls ---
+// Project API Calls
 const projectApi = {
   getProjects: async () => {
     try {
@@ -104,7 +103,7 @@ const projectApi = {
   }
 };
 
-// --- Task API Calls ---
+// Task API Calls
 const taskApi = {
   getTasks: async (projectId, searchTerm = '', status = 'All') => {
     try {
@@ -178,7 +177,7 @@ const taskApi = {
   },
 };
 
-// --- Chat API Calls (No changes, as notifications are not generated here) ---
+// Chat API Calls 
 const chatApi = {
   getMessages: async (projectId) => {
     try {

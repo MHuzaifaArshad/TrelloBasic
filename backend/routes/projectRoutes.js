@@ -6,13 +6,12 @@ const {
   createProject,
   updateProject,
   deleteProject,
-  getProjectDashboardSummary, // NEW: Import the new controller function
+  getProjectDashboardSummary, 
 } = require('../controllers/projectController');
-const { protect } = require('../middleware/authMiddleware'); // Assuming you have auth middleware
+const { protect } = require('../middleware/authMiddleware'); 
 
 const router = express.Router();
 
-// All project routes will be protected
 router.use(protect);
 
 router.route('/')
@@ -24,7 +23,6 @@ router.route('/:id')
   .put(updateProject)
   .delete(deleteProject);
 
-// NEW: Route for project dashboard summary
 router.get('/:projectId/dashboard-summary', getProjectDashboardSummary);
 
 module.exports = router;

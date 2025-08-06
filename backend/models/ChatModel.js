@@ -10,7 +10,7 @@ const messageSchema = mongoose.Schema(
     },
     sender: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'User', // This MUST match the name of your User model
+      ref: 'User', 
       required: true,
     },
     content: {

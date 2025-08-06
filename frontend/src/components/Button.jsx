@@ -6,7 +6,6 @@ export default function Button({ children, onClick, className, type = 'button', 
       type={type}
       onClick={onClick}
       disabled={disabled}
-      // Base retro styling for all buttons
       className={`
         font-mono uppercase
         py-2 px-5

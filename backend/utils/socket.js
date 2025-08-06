@@ -1,4 +1,4 @@
-const Message = require('../models/ChatModel'); // Re-import if needed for sendMessage scope
+const Message = require('../models/ChatModel'); 
 let io;
 
 // This function initializes the socket.io instance and sets up all event listeners
@@ -9,14 +9,12 @@ exports.initSocket = (ioInstance) => {
   // Listen for new connections
   io.on('connection', (socket) => {
     console.log(`Socket.io: New client connected: ${socket.id}`);
-
-    // Listen for clients to join a project room (for general UI updates)
+ 
     socket.on('joinProject', (projectId) => {
       socket.join(projectId);
       console.log(`Socket.io: Client ${socket.id} joined project room: ${projectId}`);
     });
 
-    // Listen for clients to join their personal user room (for individual notifications)
     socket.on('joinUserRoom', (userId) => {
       if (userId) {
         socket.join(userId);
@@ -26,7 +24,7 @@ exports.initSocket = (ioInstance) => {
       }
     });
 
-    // Listen for chat messages from the client (if chat functionality exists)
+    // Listen for chat messages from the client 
     socket.on('sendMessage', async ({ projectId, sender, content }) => {
       console.log('Socket.io: sendMessage received', { projectId, sender, content });
       try {
@@ -47,14 +45,12 @@ exports.initSocket = (ioInstance) => {
       }
     });
 
-    // Listen for disconnects
     socket.on('disconnect', () => {
       console.log(`Socket.io: Client disconnected: ${socket.id}`);
     });
   });
 };
 
-// This function gets the initialized io instance
 exports.getIo = () => {
   if (!io) {
     console.error('Socket.io: getIo called before initialization!');

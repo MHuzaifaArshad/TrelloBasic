@@ -5,17 +5,16 @@ const User = require('../models/User');
 const { getIo } = require('../utils/socket');
 const mongoose = require('mongoose');
 
-// Helper function to safely parse and validate assignedTo ID
 const parseAssignedTo = (assignedToValue) => {
   if (assignedToValue === null || assignedToValue === '') {
-    return null; // Explicitly unassigned
+    return null; 
   }
 
-  // Try to parse as JSON first, in case it's a stringified object
+  
   try {
     const parsed = JSON.parse(assignedToValue);
     if (parsed && typeof parsed === 'object' && parsed._id) {
-      // If it's an object with an _id, use that _id
+  
       if (mongoose.Types.ObjectId.isValid(parsed._id)) {
         return parsed._id;
       }
@@ -24,18 +23,15 @@ const parseAssignedTo = (assignedToValue) => {
     // Not a valid JSON string, proceed as if it's a plain string
   }
 
-  // If not a stringified object, or JSON parsing failed, treat as a direct ID string
   if (mongoose.Types.ObjectId.isValid(assignedToValue)) {
     return assignedToValue;
   }
 
-  // If none of the above, it's invalid
   console.warn(`TaskController: Attempted to parse invalid assignedTo value: ${assignedToValue}`);
-  return null; // Return null for invalid values to prevent CastError
+  return null; 
 };
 
 
-// Helper function to create a notification
 const createNotification = async (recipientId, senderId, projectId, taskId, type, message) => {
   try {
     if (!mongoose.Types.ObjectId.isValid(recipientId)) {
@@ -258,7 +254,7 @@ const updateTask = async (req, res) => {
       }
     }
 
-    // Case 2: Other changes to an *already assigned* task (notify the current assignee)
+    // Case 2: Other changes to an *already assigned* task 
     if (updatedTask.assignedTo && updatedTask.assignedTo._id.toString() !== req.user._id.toString()) {
         let message = '';
         let notificationType = 'task_updated';

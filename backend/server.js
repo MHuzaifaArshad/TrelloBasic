@@ -14,44 +14,42 @@ const taskRoutes = require('./routes/taskRoutes');
 const chatRoutes = require('./routes/chatRoutes');
 const notificationRoutes = require('./routes/notificationRoutes');
 
-dotenv.config(); // Load .env for local development
+dotenv.config(); 
 connectDB();
 
 const app = express();
 const server = http.createServer(app);
 
-// Initialize Socket.io and pass the HTTP server
+
 const io = new Server(server, {
   cors: {
-    origin: 'YOUR_VERCEL_FRONTEND_URL', // <-- REPLACE THIS AFTER VERCEL DEPLOY!
+    origin: 'https://trello-basic.vercel.app/', 
     credentials: true,
   }
 });
 
-// Pass the io instance to our utility function to set up listeners
 initSocket(io);
 
 // Middleware
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
-  origin: 'YOUR_VERCEL_FRONTEND_URL', // <-- REPLACE THIS AFTER VERCEL DEPLOY!
+  origin: 'https://trello-basic.vercel.app/', 
   credentials: true,
 }));
 
-// Basic route for testing the server
+
 app.get('/', (req, res) => {
   res.send('Collaboration Tool API is running...');
 });
 
-// Mount authentication routes these routes are public
+
 app.use('/api/auth', authRoutes);
 
-// Mount all other routes these are protected by the authMiddleware within each router
 app.use('/api/projects', projectRoutes);
 app.use('/api', taskRoutes);
 app.use('/api', chatRoutes);
-app.use('/api', notificationRoutes); // Corrected route path to match your API structure
+app.use('/api', notificationRoutes); 
 
 const PORT = process.env.PORT || 5000;
 

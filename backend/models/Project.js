@@ -6,7 +6,7 @@ const projectSchema = mongoose.Schema(
     name: {
       type: String,
       required: true,
-      unique: false, // Not globally unique, but unique per owner
+      unique: false, 
       trim: true,
     },
     description: {
@@ -17,21 +17,21 @@ const projectSchema = mongoose.Schema(
     owner: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
-      ref: 'User', // References the User model
+      ref: 'User', 
     },
-    members: [ // Array of user IDs who are members of the project
+    members: [ 
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User', // References the User model
+        ref: 'User', 
       },
     ],
   },
   {
-    timestamps: true, // Mongoose automatically adds `createdAt` and `updatedAt` fields
+    timestamps: true, 
   }
 );
 
-// Add a unique compound index to ensure a user cannot have two projects with the exact same name
+
 projectSchema.index({ name: 1, owner: 1 }, { unique: true });
 
 const Project = mongoose.model('Project', projectSchema);

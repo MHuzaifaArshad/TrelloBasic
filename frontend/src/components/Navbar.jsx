@@ -1,7 +1,7 @@
 // frontend/src/components/Navbar.jsx
 import React, { useState, useRef, useEffect } from 'react';
 import Button from './Button';
-import { Bell, XCircle, CheckCircle } from 'lucide-react'; // Ensure lucide-react is installed
+import { Bell, XCircle, CheckCircle } from 'lucide-react'; 
 
 export default function Navbar({
   isLoggedIn,
@@ -9,10 +9,10 @@ export default function Navbar({
   onNavigateToLogin,
   onNavigateToRegister,
   onNavigateToDashboard,
-  notifications = [], // Persistent notifications array
-  markNotificationAsRead, // Function to mark as read
-  markAllNotificationsAsRead, // Function to mark all as read
-  currentUser // Current user for display
+  notifications = [], 
+  markNotificationAsRead, 
+  markAllNotificationsAsRead, 
+  currentUser 
 }) {
   const [showNotifications, setShowNotifications] = useState(false);
   const notificationsRef = useRef(null);

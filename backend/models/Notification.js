@@ -8,22 +8,22 @@ const notificationSchema = mongoose.Schema(
       ref: 'User',
       required: true,
     },
-    sender: { // Optional: who triggered the notification (e.g., user who updated task)
+    sender: { 
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
       required: false,
     },
-    project: { // Optional: which project the notification relates to
+    project: { 
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Project',
       required: false,
     },
-    task: { // Optional: which task the notification relates to
+    task: { 
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Task',
       required: false,
     },
-    type: { // e.g., 'task_assigned', 'task_status_change', 'new_message', 'project_member_added'
+    type: { 
       type: String,
       required: true,
       enum: ['task_assigned', 'task_status_change', 'new_message', 'project_member_added', 'task_created', 'task_deleted', 'task_updated', 'task_unassigned'], // Added task_unassigned
@@ -38,11 +38,10 @@ const notificationSchema = mongoose.Schema(
     },
   },
   {
-    timestamps: true, // Adds createdAt and updatedAt timestamps
+    timestamps: true, 
   }
 );
 
-// Index to quickly query notifications for a specific user, ordered by creation date
 notificationSchema.index({ recipient: 1, createdAt: -1 });
 
 const Notification = mongoose.model('Notification', notificationSchema);

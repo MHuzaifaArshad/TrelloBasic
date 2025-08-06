@@ -1,17 +1,14 @@
 // backend/routes/chatRoutes.js
 const express = require('express');
 const router = express.Router();
-
-// The fix is here: we import the 'protect' function specifically.
-// You might need to adjust 'protect' to match the actual name in your middleware file.
 const { protect } = require('../middleware/authMiddleware'); 
 const Chat = require('../models/ChatModel');
 
-/**
- * @route   GET /api/projects/:projectId/chat
- * @desc    Get all chat messages for a specific project
- * @access  Private
- */
+
+ //route   GET /api/projects/:projectId/chat
+ //@desc    Get all chat messages for a specific project
+ //@access  Private
+
 router.get('/projects/:projectId/chat', protect, async (req, res) => {
   try {
     const { projectId } = req.params;

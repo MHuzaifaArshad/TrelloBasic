@@ -4,7 +4,7 @@ const { CloudinaryStorage } = require('multer-storage-cloudinary');
 const multer = require('multer');
 const dotenv = require('dotenv');
 
-dotenv.config(); // Load environment variables from .env
+dotenv.config(); 
 
 // --- NEW: Debugging logs for Cloudinary credentials ---
 console.log('Cloudinary Config Check:');
@@ -13,14 +13,14 @@ console.log('CLOUDINARY_API_KEY:', process.env.CLOUDINARY_API_KEY ? 'Loaded' : '
 console.log('CLOUDINARY_API_SECRET:', process.env.CLOUDINARY_API_SECRET ? 'Loaded' : 'NOT LOADED');
 // --- END Debugging logs ---
 
-// Configure Cloudinary
+
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-// Configure Cloudinary storage for Multer
+// Cloudinary storage for Multer
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {

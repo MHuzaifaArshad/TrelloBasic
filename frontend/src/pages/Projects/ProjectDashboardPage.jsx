@@ -5,12 +5,11 @@ import Button from '../../components/Button';
 import {
   PieChart, Pie, Cell,
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer
-} from 'recharts'; // Import Recharts components
+} from 'recharts'; 
 
-// Define colors for the pie chart slices
+
 const COLORS = ['#8884d8', '#82ca9d', '#ffc658', '#FF8042', '#0088FE', '#00C49F'];
 
-// Custom label for PieChart to show percentage
 const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
   const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
   const x = cx + radius * Math.cos(-midAngle * Math.PI / 180);
@@ -112,7 +111,7 @@ export default function ProjectDashboardPage({ projectId, onBackToProjectDetails
                   outerRadius={120}
                   fill="#8884d8"
                   dataKey="count"
-                  nameKey="status" // CRITICAL FIX: Tell the Pie to use 'status' for the legend
+                  nameKey="status" 
                 >
                   {tasksByStatus.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />

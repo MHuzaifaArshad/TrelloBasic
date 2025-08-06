@@ -21,7 +21,7 @@ const taskSchema = mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ['To Do', 'In Progress', 'Done'], // Kanban-style statuses
+      enum: ['To Do', 'In Progress', 'Done'], 
       default: 'To Do',
     },
     priority: {
@@ -33,33 +33,33 @@ const taskSchema = mongoose.Schema(
       type: Date,
       required: false,
     },
-    project: { // The project this task belongs to
+    project: { 
       type: mongoose.Schema.Types.ObjectId,
       required: true,
-      ref: 'Project', // References the 'Project' model
+      ref: 'Project', 
     },
-    assignedTo: { // The user assigned to this task
+    assignedTo: { 
       type: mongoose.Schema.Types.ObjectId,
-      required: false, // Task might not be assigned initially
-      ref: 'User', // References the 'User' model
+      required: false, 
+      ref: 'User', 
     },
-    createdBy: { // The user who created this task
+    createdBy: { 
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
       required: true,
     },
-    // NEW: Field for attachments
+    
     attachments: [
       {
         filename: {
           type: String,
           required: true,
         },
-        filePath: { // This will store the local path or cloud URL
+        filePath: { 
           type: String,
           required: true,
         },
-        mimetype: { // Store the file type
+        mimetype: { 
           type: String,
           required: true,
         },
@@ -71,11 +71,10 @@ const taskSchema = mongoose.Schema(
     ],
   },
   {
-    timestamps: true, // Adds createdAt and updatedAt timestamps
+    timestamps: true, 
   }
 );
 
-// Add a compound index for efficient querying of tasks within a project
 taskSchema.index({ project: 1, status: 1 });
 
 const Task = mongoose.model('Task', taskSchema);

@@ -1,7 +1,7 @@
 // backend/controllers/notificationController.js
 const Notification = require('../models/Notification');
 const mongoose = require('mongoose');
-const { getIo } = require('../utils/socket'); // To emit updates to frontend
+const { getIo } = require('../utils/socket'); 
 
 // @desc    Get all notifications for the authenticated user
 // @route   GET /api/notifications
@@ -9,10 +9,10 @@ const { getIo } = require('../utils/socket'); // To emit updates to frontend
 const getNotifications = async (req, res) => {
   try {
     const notifications = await Notification.find({ recipient: req.user._id })
-      .populate('sender', 'username') // Populate sender's username
-      .populate('project', 'name') // Populate project name
-      .populate('task', 'title') // Populate task title
-      .sort({ createdAt: -1 }); // Most recent first
+      .populate('sender', 'username') 
+      .populate('project', 'name') 
+      .populate('task', 'title') 
+      .sort({ createdAt: -1 }); 
 
     res.status(200).json(notifications);
   } catch (error) {
@@ -38,7 +38,7 @@ const markNotificationAsRead = async (req, res) => {
       return res.status(404).json({ message: 'Notification not found' });
     }
 
-    // Ensure only the recipient can mark it as read
+    
     if (!notification.recipient.equals(req.user._id)) {
       return res.status(403).json({ message: 'Not authorized to mark this notification as read' });
     }
@@ -46,7 +46,7 @@ const markNotificationAsRead = async (req, res) => {
     notification.isRead = true;
     await notification.save();
 
-    // Emit update to the user's socket room
+    
     const io = getIo();
     io.to(req.user._id.toString()).emit('notificationUpdated', notification);
 
@@ -69,7 +69,7 @@ const markAllNotificationsAsRead = async (req, res) => {
 
     // Emit update to the user's socket room to reflect all as read
     const io = getIo();
-    io.to(req.user._id.toString()).emit('allNotificationsRead'); // Custom event for all read
+    io.to(req.user._id.toString()).emit('allNotificationsRead'); 
 
     res.status(200).json({ message: 'All notifications marked as read' });
   } catch (error) {

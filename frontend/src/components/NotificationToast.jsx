@@ -1,19 +1,14 @@
 // frontend/src/components/NotificationToast.jsx
 import React, { useEffect, useState } from 'react';
 
-// This component is now primarily illustrative for the Navbar dropdown.
-// It's not directly rendered as a "toast" in the App.jsx anymore.
 export default function NotificationToast({ id, message, type = 'info', onDismiss }) {
   const [isVisible, setIsVisible] = useState(true);
 
-  // This auto-dismiss logic is typically for transient toasts.
-  // For persistent notifications in a dropdown, this might not be desired.
-  // However, keeping it here for consistency if it were to be used as a temporary toast.
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsVisible(false);
       setTimeout(() => onDismiss(id), 500);
-    }, 5000); // Notification visible for 5 seconds
+    }, 5000); 
 
     return () => clearTimeout(timer);
   }, [id, onDismiss]);

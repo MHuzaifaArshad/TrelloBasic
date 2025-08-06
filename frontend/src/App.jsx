@@ -62,7 +62,6 @@ export default function App() {
     const checkAuthStatus = async () => {
       setLoading(true);
       try {
-        // Attempt to get projects to implicitly check auth status
         await projectApi.getProjects(); 
         setIsLoggedIn(true);
         const storedUser = localStorage.getItem('user');
@@ -109,7 +108,7 @@ export default function App() {
               );
             });
           }
-          setCurrentPage('projects'); // Navigate after auth check and user set
+          setCurrentPage('projects'); 
         }
       } catch (err) {
         if (err.response && err.response.status === 401) {
@@ -141,17 +140,16 @@ export default function App() {
         socketRef.current = null;
       }
     };
-  }, []); // Runs once on mount
+  }, []);
 
-  // Effect to join user room and fetch notifications when `user` state changes
+  // Effect to join user room and fetch notifications when user state changes
   useEffect(() => {
     if (user?._id && socketRef.current && socketRef.current.connected) {
-      // Emit joinUserRoom only when user is available and socket is connected
       socketRef.current.emit('joinUserRoom', user._id);
       console.log(`Frontend: Emitted joinUserRoom for ${user._id}`);
-      fetchNotifications(); // Fetch initial notifications for the logged-in user
+      fetchNotifications(); 
     } else if (!user?._id) {
-      setNotifications([]); // Clear notifications if user logs out
+      setNotifications([]); 
       console.log('Frontend: User logged out or not available, clearing notifications.');
     } else if (user?._id && socketRef.current && !socketRef.current.connected) {
       console.log('Frontend: User available but socket not connected yet, waiting for connection...');
