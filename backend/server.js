@@ -23,7 +23,7 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: 'https://trello-basic.vercel.app/', 
+    origin: 'https://trello-basic.vercel.app', 
     credentials: true,
   }
 });
@@ -34,7 +34,7 @@ initSocket(io);
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
-  origin: 'https://trello-basic.vercel.app/', 
+  origin: 'https://trello-basic.vercel.app', 
   credentials: true,
 }));
 
