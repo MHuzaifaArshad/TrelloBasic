@@ -65,13 +65,34 @@ export default function ProjectDetailsPage({ projectId, onBackToProjects, curren
       fetchProjectAndTasks();
       fetchMessages();
 
+      // CRITICAL FIX: Connect to the correct backend URL for Socket.IO
+      // Use VITE_APP_BACKEND_URL and strip the '/api' path for Socket.IO
+      const backendBaseUrl = import.meta.env.VITE_APP_BACKEND_URL
+        ? import.meta.env.VITE_APP_BACKEND_URL.replace('/api', '') 
+        : 'http://localhost:5000'; // Fallback for local dev
+
       if (!socketRef.current) {
-        socketRef.current = io('http://localhost:5000', {
-          withCredentials: true,
+        socketRef.current = io(backendBaseUrl, { 
+          withCredentials: true, 
+          transports: ['websocket', 'polling'], 
+          
         });
 
-        console.log(`Joining project room: ${projectId}`);
-        socketRef.current.emit('joinProject', projectId);
+        console.log(`Attempting to connect Socket.IO to: ${backendBaseUrl}`);
+
+        socketRef.current.on('connect', () => {
+          console.log('Socket.IO connected:', socketRef.current.id);
+          console.log(`Joining project room: ${projectId}`);
+          socketRef.current.emit('joinProject', projectId);
+        });
+
+        socketRef.current.on('disconnect', (reason) => {
+          console.log('Socket.IO disconnected:', reason);
+        });
+
+        socketRef.current.on('connect_error', (error) => {
+          console.error('Socket.IO connection error:', error);
+        });
 
         socketRef.current.on('taskCreated', (newTask) => {
           console.log('Real-time: Task created', newTask);
@@ -102,6 +123,10 @@ export default function ProjectDetailsPage({ projectId, onBackToProjects, curren
     return () => {
       if (socketRef.current) {
         console.log(`Leaving project room and disconnecting socket: ${projectId}`);
+        socketRef.current.emit('leaveProject', projectId); // Emit leave event
+        socketRef.current.off('connect');
+        socketRef.current.off('disconnect');
+        socketRef.current.off('connect_error');
         socketRef.current.off('taskCreated');
         socketRef.current.off('taskUpdated');
         socketRef.current.off('taskDeleted');
@@ -110,7 +135,7 @@ export default function ProjectDetailsPage({ projectId, onBackToProjects, curren
         socketRef.current = null;
       }
     };
-  }, [projectId, fetchProjectAndTasks, fetchMessages]);
+  }, [projectId, fetchProjectAndTasks, fetchMessages, project]); // Added project to dependency array
 
   const handleCreateTask = async (taskData, file) => {
     try {
@@ -119,6 +144,7 @@ export default function ProjectDetailsPage({ projectId, onBackToProjects, curren
         await taskApi.uploadTaskAttachment(createdTask._id, file);
       }
       setShowTaskForm(false);
+      // Backend will emit 'taskCreated' after saving
     } catch (err) {
       console.error('Error creating task:', err);
       throw new Error(err.response?.data?.message || 'Failed to create task.');
@@ -133,6 +159,7 @@ export default function ProjectDetailsPage({ projectId, onBackToProjects, curren
       }
       setShowTaskForm(false);
       setEditingTask(null);
+      // Backend will emit 'taskUpdated' after saving
     } catch (err) {
       console.error('Error updating task:', err);
       throw new Error(err.response?.data?.message || 'Failed to update task.');
@@ -149,6 +176,7 @@ export default function ProjectDetailsPage({ projectId, onBackToProjects, curren
 
     try {
       await taskApi.deleteTask(taskToDeleteId);
+      // Backend will emit 'taskDeleted' after saving
     } catch (err) {
       console.error('Error deleting task:', err);
       setError(err.response?.data?.message || 'Failed to delete task.');
@@ -166,6 +194,7 @@ export default function ProjectDetailsPage({ projectId, onBackToProjects, curren
   const handleStatusChange = async (taskId, newStatus) => {
     try {
       await taskApi.updateTask(taskId, { status: newStatus });
+      // Backend will emit 'taskUpdated' after saving
     } catch (err) {
       console.error('Error changing task status:', err);
       setError(err.response?.data?.message || 'Failed to change task status.');
@@ -270,7 +299,7 @@ export default function ProjectDetailsPage({ projectId, onBackToProjects, curren
         <div className="flex flex-col sm:flex-row gap-3">
           <Button
             onClick={() => onNavigateToDashboard(projectId)}
-            className="bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-5 border-2 border-blue-500 shadow-md transition duration-200 ease-in-out text-sm flex items-center justify-center font-mono"
+            className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-5 border-2 border-purple-500 shadow-md transition duration-200 ease-in-out text-sm flex items-center justify-center font-mono"
           >
             VIEW DASHBOARD
           </Button>
@@ -306,7 +335,7 @@ export default function ProjectDetailsPage({ projectId, onBackToProjects, curren
         
         <Button
           onClick={handleSearchButtonClick}
-          className="bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-6 border-2 border-blue-500 shadow-md transition duration-200 ease-in-out w-full sm:w-auto h-10 flex items-center justify-center font-mono"
+          className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-6 border-2 border-purple-500 shadow-md transition duration-200 ease-in-out w-full sm:w-auto h-10 flex items-center justify-center font-mono"
         >
           <Search size={18} className="mr-2" /> SEARCH
         </Button>
